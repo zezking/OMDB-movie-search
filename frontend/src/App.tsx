@@ -1,15 +1,24 @@
 import { useEffect, useState } from "react";
-import "./App.css";
 import List from "./components/list";
 import SearchBar from "./components/searchBar";
 import axios from "axios";
 import { useDebounce } from "./hooks/useDebounce";
+import { ThemeProvider } from "@emotion/react";
+import {
+  Alert,
+  Backdrop,
+  CircularProgress,
+  Snackbar,
+  Stack,
+} from "@mui/material";
+import { theme } from "./styles";
+import TopBar from "./components/topBar";
+import AppTitle from "./components/title";
 
 export interface SearchType {
   title: string;
   year: string;
   type: string;
-  plot: string;
 }
 
 const App = () => {
@@ -18,33 +27,44 @@ const App = () => {
     title: "",
     year: "",
     type: "",
-    plot: "",
   });
-  const [error, setError] = useState("");
-  const [loading, setLoading] = useState(false);
-  const debouncedSearch = useDebounce(search, 500);
 
-  const { title, year, type, plot } = debouncedSearch;
+  const debouncedSearch = useDebounce(search, 500);
+  const [openBackdrop, setOpenBackdrop] = useState(false);
+  const [alert, setAlert] = useState({ message: "", open: false });
+
+  const { title, year, type } = debouncedSearch;
+
+  const handleClose = (
+    event?: React.SyntheticEvent | Event,
+    reason?: string
+  ) => {
+    if (reason === "clickaway") {
+      return;
+    }
+
+    setAlert((prevState) => ({ ...prevState, open: false, message: "" }));
+  };
 
   const getMovies = async ({
     title,
     year,
     type,
-    plot,
   }: SearchType): Promise<void> => {
-    setLoading(true);
+    setOpenBackdrop(true);
+
     let baseUrl = `http://www.omdbapi.com/?`;
+
     if (title) {
       baseUrl += `&s=${title.trim()}`;
     }
+
     if (year) {
       baseUrl += `&y=${year.trim()}`;
     }
+
     if (type) {
       baseUrl += `&type=${type.trim()}`;
-    }
-    if (plot) {
-      baseUrl += `&plot=${plot.trim()}`;
     }
 
     baseUrl += "&apiKey=4dff90e1";
@@ -52,41 +72,62 @@ const App = () => {
     const results = await axios.get(baseUrl);
 
     if (results.data.Response === "True") {
-      setError("");
+      setAlert((prevState) => ({ ...prevState, open: false, message: "" }));
       setResults(results.data.Search);
     } else if (results.data.Response === "False") {
-      setError(results.data.Error);
+      setAlert((prevState) => ({
+        ...prevState,
+        open: true,
+        message: results.data.Error,
+      }));
     }
   };
 
   useEffect(() => {
     const loadingTimer = setTimeout(() => {
-      setLoading(false);
+      setOpenBackdrop(false);
     }, 600);
-    if (title || year || type || plot) {
-      getMovies({ title, year, type, plot });
+    if (title || year || type) {
+      getMovies({ title, year, type });
     } else {
-      setError("");
+      setAlert((prevState) => ({ ...prevState, open: false, message: "" }));
       setResults([]);
     }
 
     return () => {
       clearTimeout(loadingTimer);
     };
-  }, [title, year, plot, type]);
+  }, [title, year, type]);
 
   return (
-    <div className="app">
-      <SearchBar search={search} setSearch={setSearch} />
-      <h2>Movies</h2>
-      <h3>Welcome to movie database!</h3>
+    <ThemeProvider theme={theme}>
+      <div className="app">
+        <TopBar />
+        <AppTitle />
+        <SearchBar search={search} setSearch={setSearch} />
+        <List results={results} />
 
-      {loading ? (
-        <div>Searching...</div>
-      ) : (
-        <List results={results} error={error} />
-      )}
-    </div>
+        <Backdrop
+          sx={{ color: "#fff", zIndex: (theme) => theme.zIndex.drawer + 1 }}
+          open={openBackdrop}
+          onClick={() => setOpenBackdrop(false)}
+        >
+          <CircularProgress color="inherit" />
+        </Backdrop>
+        <Stack sx={{ width: "100%" }}>
+          <Snackbar
+            open={alert.open}
+            anchorOrigin={{ vertical: "bottom", horizontal: "center" }}
+            autoHideDuration={2000}
+            onClose={handleClose}
+          >
+            <Alert severity="warning" onClose={handleClose}>
+              {alert.message}
+            </Alert>
+          </Snackbar>
+        </Stack>
+      </div>
+    </ThemeProvider>
   );
 };
 
