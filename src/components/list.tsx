@@ -17,7 +17,7 @@ const List = (props: MovieListProps) => {
     showInfo: false,
   });
 
-  if (alert.message && alert.type !== "app") {
+  if (alert.message && alert.type === "app") {
     return (
       <Grid
         spacing={3}
@@ -27,7 +27,7 @@ const List = (props: MovieListProps) => {
       >
         <Grid item xs={6}>
           <Typography variant="h2">
-            Sorry, no results here. Please try to search for something else!
+            Sorry! {alert.message} Please try to search for something else!
           </Typography>
         </Grid>
       </Grid>
@@ -42,7 +42,7 @@ const List = (props: MovieListProps) => {
       className="search-results"
     >
       {results.map((movie) => (
-        <Grid item key={movie.imdbID} xs={3}>
+        <Grid item key={movie.imdbID} xs={6} md={3}>
           <Card
             className="image-container"
             key={movie.imdbID}

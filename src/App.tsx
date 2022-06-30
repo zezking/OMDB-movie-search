@@ -21,7 +21,7 @@ const omdbApiKey = process.env.REACT_APP_OMDB_API_KEY;
 const App = () => {
   const [results, setResults] = useState([]);
   const [search, setSearch] = useState<SearchType>({
-    title: "",
+    title: "Matrix",
     year: "",
     type: "",
   });
@@ -70,23 +70,27 @@ const App = () => {
 
     baseUrl += `&apiKey=${omdbApiKey}`;
 
-    if (type && !title && !year) {
+    if ((type || year) && !title) {
       setAlert((prevState) => ({
         ...prevState,
-        type: "app",
+        type: "request",
         open: true,
-        message: "Please enter title or year before selecting type",
+        message: "Please enter title before search by year or type",
       }));
       return;
     }
 
+    console.log(alert);
+
     const results = await axios.get(baseUrl);
     setOpenBackdrop(true);
+
+    console.log(results);
 
     if (results.data.Response === "True") {
       setAlert((prevState) => ({
         ...prevState,
-        type: "request",
+        type: "",
         open: false,
         message: "",
       }));
@@ -94,7 +98,7 @@ const App = () => {
     } else if (results.data.Response === "False") {
       setAlert((prevState) => ({
         ...prevState,
-        type: "request",
+        type: "app",
         open: true,
         message: results.data.Error,
       }));
@@ -133,9 +137,9 @@ const App = () => {
         </Backdrop>
         <Stack sx={{ width: "100%" }}>
           <Snackbar
-            open={alert.open}
+            open={alert.open && alert.type === "request"}
             anchorOrigin={{ vertical: "bottom", horizontal: "center" }}
-            autoHideDuration={4000}
+            autoHideDuration={7000}
             onClose={handleSnackBarClose}
           >
             <Alert severity="error" onClose={handleSnackBarClose}>

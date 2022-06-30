@@ -51,24 +51,24 @@ const SearchBar = (props: SearchProps) => {
     >
       <Grid item xs={5}>
         <TextField
-          label="Title"
+          label="Search by title"
           fullWidth
           className="search-input"
-          value={search.title}
           onChange={hanldeTitleInput}
           InputProps={{
+            defaultValue: "Matrix",
             startAdornment: (
               <InputAdornment position="start">
                 <SearchIcon sx={{ color: "black" }} />
               </InputAdornment>
             ),
           }}
-          placeholder="Enter title..."
+          placeholder="You can enter some of your favroute movies titles, e.g Matrix"
         />
       </Grid>
       <Grid item>
         <TextField
-          label="Year"
+          label="Search by year"
           className="search-input"
           value={search.year}
           onChange={handleYearInput}
