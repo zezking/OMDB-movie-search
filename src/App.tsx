@@ -120,7 +120,15 @@ const App = () => {
   return (
     <ThemeProvider theme={theme}>
       <TopBar />
-      <div className="app" style={{ marginTop: "200px" }}>
+      <div
+        className="app"
+        style={{
+          marginTop: "200px",
+          maxWidth: "1440px",
+          marginLeft: "auto",
+          marginRight: "auto",
+        }}
+      >
         <Header />
         <SearchBar search={search} setSearch={setSearch} />
         <List results={results} alert={alert} />

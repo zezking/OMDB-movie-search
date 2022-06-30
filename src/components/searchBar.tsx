@@ -49,7 +49,7 @@ const SearchBar = (props: SearchProps) => {
       justifyContent="center"
       marginY={5}
     >
-      <Grid item xs={5}>
+      <Grid item xs={12} sm={4} md={7}>
         <TextField
           label="Search by title"
           fullWidth
@@ -66,9 +66,10 @@ const SearchBar = (props: SearchProps) => {
           placeholder="You can enter some of your favroute movies titles, e.g Matrix"
         />
       </Grid>
-      <Grid item>
+      <Grid item xs={12} sm={4} md={3}>
         <TextField
           label="Search by year"
+          fullWidth
           className="search-input"
           value={search.year}
           onChange={handleYearInput}
@@ -82,7 +83,7 @@ const SearchBar = (props: SearchProps) => {
           placeholder="Enter year..."
         />
       </Grid>
-      <Grid item xs={2}>
+      <Grid item xs={12} sm={4} md={2}>
         <FormControl fullWidth>
           <InputLabel id="demo-simple-select-label">Type</InputLabel>
           <Select

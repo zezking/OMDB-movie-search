@@ -43,7 +43,7 @@ const List = (props: MovieListProps) => {
       className="search-results"
     >
       {results.map((movie) => (
-        <Grid item key={movie.imdbID} xs={6} md={3}>
+        <Grid item key={movie.imdbID} xs={12} sm={6} md={3}>
           <Card
             className="image-container"
             key={movie.imdbID}
