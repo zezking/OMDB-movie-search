@@ -29,7 +29,7 @@ const App = () => {
     type: "",
   });
 
-  const debouncedSearch = useDebounce(search, 500);
+  const debouncedSearch = useDebounce(search, 700);
   const [openBackdrop, setOpenBackdrop] = useState(false);
   const [alert, setAlert] = useState({ message: "", open: false });
 
@@ -118,7 +118,7 @@ const App = () => {
           <Snackbar
             open={alert.open}
             anchorOrigin={{ vertical: "bottom", horizontal: "center" }}
-            autoHideDuration={2000}
+            autoHideDuration={4000}
             onClose={handleClose}
           >
             <Alert severity="warning" onClose={handleClose}>

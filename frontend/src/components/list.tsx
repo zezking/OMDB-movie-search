@@ -50,13 +50,28 @@ const List = (props: MovieListProps) => {
                 ></CardMedia>
               )}
             </div>
-            <CardContent>
+            <CardContent
+              sx={{
+                display: "flex",
+                flexDirection: "column",
+                height: "80px",
+                marginTop: "10px",
+                alignItems: "center",
+              }}
+            >
               <Typography className="movie-title" variant="h6">
                 {movie.Title}
               </Typography>
               <Typography className="movie-title">
                 Release Year: {movie.Year}
               </Typography>
+              {movie.imdbID === selected.id && selected.showInfo ? (
+                <Typography justifyContent="center">
+                  IMDB ID: {movie.imdbID}
+                </Typography>
+              ) : (
+                ""
+              )}
             </CardContent>
             <CardActions
               sx={{
@@ -77,11 +92,6 @@ const List = (props: MovieListProps) => {
               >
                 More info
               </Button>
-              {movie.imdbID === selected.id && selected.showInfo ? (
-                <Typography>IMDB ID: {movie.imdbID}</Typography>
-              ) : (
-                ""
-              )}
             </CardActions>
           </Card>
         </Grid>
