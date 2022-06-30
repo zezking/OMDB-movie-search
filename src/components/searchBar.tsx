@@ -5,6 +5,7 @@ import {
   InputLabel,
   MenuItem,
   Select,
+  SelectChangeEvent,
   TextField,
 } from "@mui/material";
 import React from "react";
@@ -13,6 +14,31 @@ import SearchIcon from "@mui/icons-material/Search";
 
 const SearchBar = (props: SearchProps) => {
   const { search, setSearch } = props;
+
+  const hanldeTitleInput = (
+    event: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
+  ) => {
+    setSearch((prevState) => ({
+      ...prevState,
+      title: event.target.value,
+    }));
+  };
+
+  const handleYearInput = (
+    event: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
+  ) => {
+    setSearch((prevState) => ({
+      ...prevState,
+      year: event.target.value,
+    }));
+  };
+
+  const handleSelectChange = (event: SelectChangeEvent<string>) => {
+    setSearch((prevState) => ({
+      ...prevState,
+      type: event.target.value,
+    }));
+  };
 
   return (
     <Grid
@@ -29,12 +55,7 @@ const SearchBar = (props: SearchProps) => {
           fullWidth
           className="search-input"
           value={search.title}
-          onChange={(event) =>
-            setSearch((prevState) => ({
-              ...prevState,
-              title: event.target.value,
-            }))
-          }
+          onChange={hanldeTitleInput}
           InputProps={{
             startAdornment: (
               <InputAdornment position="start">
@@ -50,12 +71,7 @@ const SearchBar = (props: SearchProps) => {
           label="Year"
           className="search-input"
           value={search.year}
-          onChange={(event) =>
-            setSearch((prevState) => ({
-              ...prevState,
-              year: event.target.value,
-            }))
-          }
+          onChange={handleYearInput}
           InputProps={{
             startAdornment: (
               <InputAdornment position="start">
@@ -72,12 +88,7 @@ const SearchBar = (props: SearchProps) => {
           <Select
             value={search.type}
             label="Type"
-            onChange={(event) =>
-              setSearch((prevState) => ({
-                ...prevState,
-                type: event.target.value,
-              }))
-            }
+            onChange={handleSelectChange}
           >
             <MenuItem value="movie">movie</MenuItem>
             <MenuItem value="series">series</MenuItem>

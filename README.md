@@ -1,6 +1,10 @@
 # Getting Started Movie Search App
 
-This project is Esemble system's take home project
+This project is Esemble System take home assignment
+
+## Before start
+
+Please create a .env and enter the omdb api key. You can use this api key `4dff90e1` temporarily.
 
 ## Available Scripts
 

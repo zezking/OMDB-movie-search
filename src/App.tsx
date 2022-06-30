@@ -16,6 +16,8 @@ import TopBar from "./components/topBar";
 import Header from "./components/header";
 import { AlertType, SearchType } from "./types";
 
+const omdbApiKey = process.env.REACT_APP_OMDB_API_KEY;
+
 const App = () => {
   const [results, setResults] = useState([]);
   const [search, setSearch] = useState<SearchType>({
@@ -32,7 +34,7 @@ const App = () => {
   });
   const { title, year, type } = debouncedSearch;
 
-  const handleClose = (
+  const handleSnackBarClose = (
     event?: React.SyntheticEvent | Event,
     reason?: string
   ) => {
@@ -41,6 +43,10 @@ const App = () => {
     }
 
     setAlert((prevState) => ({ ...prevState, open: false }));
+  };
+
+  const handleBackDropClose = () => {
+    setOpenBackdrop(false);
   };
 
   const getMovies = async ({
@@ -62,7 +68,7 @@ const App = () => {
       baseUrl += `&type=${type.trim()}`;
     }
 
-    baseUrl += "&apiKey=4dff90e1";
+    baseUrl += `&apiKey=${omdbApiKey}`;
 
     if (type && !title && !year) {
       setAlert((prevState) => ({
@@ -97,14 +103,13 @@ const App = () => {
   };
 
   useEffect(() => {
-    const loadingTimer = setTimeout(() => {
-      setOpenBackdrop(false);
-    }, 500);
+    const loadingTimer = setTimeout(handleBackDropClose, 500);
 
     if (title || year || type) {
       getMovies({ title, year, type });
     } else {
       setResults([]);
+      setAlert((prevState) => ({ ...prevState, open: false, message: "" }));
     }
 
     return () => {
@@ -122,7 +127,7 @@ const App = () => {
         <Backdrop
           sx={{ color: "#fff", zIndex: (theme) => theme.zIndex.drawer + 1 }}
           open={openBackdrop}
-          onClick={() => setOpenBackdrop(false)}
+          onClick={handleBackDropClose}
         >
           <CircularProgress color="inherit" />
         </Backdrop>
@@ -131,9 +136,9 @@ const App = () => {
             open={alert.open}
             anchorOrigin={{ vertical: "bottom", horizontal: "center" }}
             autoHideDuration={4000}
-            onClose={handleClose}
+            onClose={handleSnackBarClose}
           >
-            <Alert severity="error" onClose={handleClose}>
+            <Alert severity="error" onClose={handleSnackBarClose}>
               {alert.message}
             </Alert>
           </Snackbar>
