@@ -127,6 +127,7 @@ const App = () => {
           maxWidth: "1440px",
           marginLeft: "auto",
           marginRight: "auto",
+          padding: "0 20px",
         }}
       >
         <Header />
