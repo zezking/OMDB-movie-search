@@ -8,6 +8,7 @@ import {
   Typography,
 } from "@mui/material";
 import { useState } from "react";
+import { yellow } from "../styles";
 import { MovieListProps, SelectType } from "../types";
 
 const List = (props: MovieListProps) => {
@@ -83,9 +84,11 @@ const List = (props: MovieListProps) => {
                 Release Year: {movie.Year}
               </Typography>
               {movie.imdbID === selected.id && selected.showInfo ? (
-                <Typography justifyContent="center">
-                  IMDB ID: {movie.imdbID}
-                </Typography>
+                <div style={{ backgroundColor: yellow }}>
+                  <Typography justifyContent="center" variant="caption">
+                    IMDB ID: {movie.imdbID}
+                  </Typography>
+                </div>
               ) : (
                 ""
               )}

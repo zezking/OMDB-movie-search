@@ -80,12 +80,8 @@ const App = () => {
       return;
     }
 
-    console.log(alert);
-
     const results = await axios.get(baseUrl);
     setOpenBackdrop(true);
-
-    console.log(results);
 
     if (results.data.Response === "True") {
       setAlert((prevState) => ({

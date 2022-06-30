@@ -10,8 +10,15 @@ export interface AlertType {
   open: boolean;
 }
 
+export interface Movie {
+  Title: string;
+  Poster: string;
+  imdbID: string;
+  Year: string;
+}
+
 export interface MovieListProps {
-  results: { Title: string; Poster: string; imdbID: string; Year: string }[];
+  results: Movie[];
   alert: AlertType;
 }
 
