@@ -13,13 +13,8 @@ import {
 } from "@mui/material";
 import { theme } from "./styles";
 import TopBar from "./components/topBar";
-import AppTitle from "./components/title";
-
-export interface SearchType {
-  title: string;
-  year: string;
-  type: string;
-}
+import Header from "./components/header";
+import { AlertType, SearchType } from "./types";
 
 const App = () => {
   const [results, setResults] = useState([]);
@@ -28,11 +23,13 @@ const App = () => {
     year: "",
     type: "",
   });
-
-  const debouncedSearch = useDebounce(search, 700);
-  const [openBackdrop, setOpenBackdrop] = useState(false);
-  const [alert, setAlert] = useState({ message: "", open: false });
-
+  const debouncedSearch = useDebounce(search, 500);
+  const [openBackdrop, setOpenBackdrop] = useState<boolean>(false);
+  const [alert, setAlert] = useState<AlertType>({
+    type: "",
+    message: "",
+    open: false,
+  });
   const { title, year, type } = debouncedSearch;
 
   const handleClose = (
@@ -43,7 +40,7 @@ const App = () => {
       return;
     }
 
-    setAlert((prevState) => ({ ...prevState, open: false, message: "" }));
+    setAlert((prevState) => ({ ...prevState, open: false }));
   };
 
   const getMovies = async ({
@@ -51,8 +48,6 @@ const App = () => {
     year,
     type,
   }: SearchType): Promise<void> => {
-    setOpenBackdrop(true);
-
     let baseUrl = `http://www.omdbapi.com/?`;
 
     if (title) {
@@ -69,28 +64,46 @@ const App = () => {
 
     baseUrl += "&apiKey=4dff90e1";
 
+    if (type && !title && !year) {
+      setAlert((prevState) => ({
+        ...prevState,
+        type: "app",
+        open: true,
+        message: "Please enter title or year before selecting type",
+      }));
+      return;
+    }
+
     const results = await axios.get(baseUrl);
+    setOpenBackdrop(true);
 
     if (results.data.Response === "True") {
-      setAlert((prevState) => ({ ...prevState, open: false, message: "" }));
+      setAlert((prevState) => ({
+        ...prevState,
+        type: "request",
+        open: false,
+        message: "",
+      }));
       setResults(results.data.Search);
     } else if (results.data.Response === "False") {
       setAlert((prevState) => ({
         ...prevState,
+        type: "request",
         open: true,
         message: results.data.Error,
       }));
+      setResults([]);
     }
   };
 
   useEffect(() => {
     const loadingTimer = setTimeout(() => {
       setOpenBackdrop(false);
-    }, 600);
+    }, 500);
+
     if (title || year || type) {
       getMovies({ title, year, type });
     } else {
-      setAlert((prevState) => ({ ...prevState, open: false, message: "" }));
       setResults([]);
     }
 
@@ -101,12 +114,11 @@ const App = () => {
 
   return (
     <ThemeProvider theme={theme}>
-      <div className="app">
-        <TopBar />
-        <AppTitle />
+      <TopBar />
+      <div className="app" style={{ marginTop: "200px" }}>
+        <Header />
         <SearchBar search={search} setSearch={setSearch} />
-        <List results={results} />
-
+        <List results={results} alert={alert} />
         <Backdrop
           sx={{ color: "#fff", zIndex: (theme) => theme.zIndex.drawer + 1 }}
           open={openBackdrop}
@@ -121,7 +133,7 @@ const App = () => {
             autoHideDuration={4000}
             onClose={handleClose}
           >
-            <Alert severity="warning" onClose={handleClose}>
+            <Alert severity="error" onClose={handleClose}>
               {alert.message}
             </Alert>
           </Snackbar>

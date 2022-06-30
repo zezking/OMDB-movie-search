@@ -1,6 +1,6 @@
 import { Grid, Typography } from "@mui/material";
 
-const AppTitle = () => {
+const Header = () => {
   return (
     <Grid container justifyContent="center" marginTop={5}>
       <Grid item>
@@ -9,4 +9,4 @@ const AppTitle = () => {
     </Grid>
   );
 };
-export default AppTitle;
+export default Header;

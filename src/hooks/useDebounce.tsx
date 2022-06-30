@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { SearchType } from "../App";
+import { SearchType } from "../types";
 
 const useDebounce = (value: SearchType, delay: number): SearchType => {
   const [debounceValue, setDebounceValue] = useState(value);

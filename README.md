@@ -1,10 +1,10 @@
-# Getting Started with Create React App
+# Getting Started Movie Search App
 
 This project is Esemble system's take home project
 
 ## Available Scripts
 
-In the project directory, you can run:
+In the project directory, you can run the following scripts. If meet with npm authentication error, please consider switching to node v14.18.3
 
 ### `npm install`
 

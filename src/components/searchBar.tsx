@@ -8,13 +8,8 @@ import {
   TextField,
 } from "@mui/material";
 import React from "react";
-import { SearchType } from "../App";
+import { SearchProps } from "../types";
 import SearchIcon from "@mui/icons-material/Search";
-
-interface SearchProps {
-  search: SearchType;
-  setSearch: React.Dispatch<React.SetStateAction<SearchType>>;
-}
 
 const SearchBar = (props: SearchProps) => {
   const { search, setSearch } = props;

@@ -7,10 +7,10 @@ const yellow = colors.yellow[600];
 const theme = createTheme({
   palette: {
     primary: {
-      main: colors.yellow[600],
+      main: yellow,
     },
     secondary: {
-      main: colors.grey[900],
+      main: black,
     },
   },
 
@@ -18,9 +18,9 @@ const theme = createTheme({
     MuiButtonBase: {
       styleOverrides: {
         root: {
-          color: colors.grey[900],
+          color: black,
           ":hover": {
-            color: colors.grey[900],
+            color: black,
           },
         },
       },
@@ -29,15 +29,15 @@ const theme = createTheme({
     MuiOutlinedInput: {
       styleOverrides: {
         root: {
-          color: colors.grey[900],
+          color: black,
           "&:hover .MuiOutlinedInput-notchedOutline": {
-            borderColor: colors.yellow[600],
+            borderColor: yellow,
           },
         },
         notchedOutline: {
-          borderColor: colors.grey[900],
+          borderColor: black,
           ":hover": {
-            color: colors.yellow[600],
+            color: black,
           },
         },
       },
@@ -45,7 +45,7 @@ const theme = createTheme({
     MuiInputLabel: {
       styleOverrides: {
         outlined: {
-          color: colors.grey[900],
+          color: black,
         },
       },
     },

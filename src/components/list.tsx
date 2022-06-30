@@ -8,14 +8,31 @@ import {
   Typography,
 } from "@mui/material";
 import { useState } from "react";
-
-interface MovieListProps {
-  results: { Title: string; Poster: string; imdbID: string; Year: string }[];
-}
+import { MovieListProps, SelectType } from "../types";
 
 const List = (props: MovieListProps) => {
-  const { results } = props;
-  const [selected, setSelected] = useState({ id: "", showInfo: false });
+  const { results, alert } = props;
+  const [selected, setSelected] = useState<SelectType>({
+    id: "",
+    showInfo: false,
+  });
+
+  if (alert.message && alert.type !== "app") {
+    return (
+      <Grid
+        spacing={3}
+        justifyContent="center"
+        container
+        className="search-results"
+      >
+        <Grid item xs={6}>
+          <Typography variant="h2">
+            Sorry, no results here. Please try to search for something else!
+          </Typography>
+        </Grid>
+      </Grid>
+    );
+  }
 
   return (
     <Grid
