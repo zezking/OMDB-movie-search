@@ -15,7 +15,7 @@ import SearchIcon from "@mui/icons-material/Search";
 const SearchBar = (props: SearchProps) => {
   const { search, setSearch } = props;
 
-  const hanldeTitleInput = (
+  const handleTitleInput = (
     event: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
   ) => {
     setSearch((prevState) => ({
@@ -54,7 +54,7 @@ const SearchBar = (props: SearchProps) => {
           label="Search by title"
           fullWidth
           className="search-input"
-          onChange={hanldeTitleInput}
+          onChange={handleTitleInput}
           InputProps={{
             defaultValue: "Matrix",
             startAdornment: (
@@ -63,7 +63,7 @@ const SearchBar = (props: SearchProps) => {
               </InputAdornment>
             ),
           }}
-          placeholder="You can enter some of your favroute movies titles, e.g Matrix"
+          placeholder="You can enter some of your favorite movies titles, e.g Matrix"
         />
       </Grid>
       <Grid item xs={12} sm={4} md={3}>

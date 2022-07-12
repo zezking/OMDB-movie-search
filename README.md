@@ -1,10 +1,10 @@
 # Getting Started Movie Search App
 
-This project is Esemble System take home assignment
+This project is Ensemble System take home assignment
 
 ## Before start
 
-Please create a .env and enter the omdb api key. You can use this api key `4dff90e1` temporarily.
+Please create a .env and enter the OMDB api key. You can use this api key `4dff90e1` temporarily.
 
 ## Available Scripts
 

@@ -16,7 +16,7 @@ import TopBar from "./components/topBar";
 import Header from "./components/header";
 import { AlertType, SearchType } from "./types";
 
-const omdbApiKey = process.env.REACT_APP_OMDB_API_KEY;
+const OMDB_API_KEY = process.env.REACT_APP_OMDB_API_KEY;
 
 const App = () => {
   const [results, setResults] = useState([]);
@@ -68,7 +68,7 @@ const App = () => {
       baseUrl += `&type=${type.trim()}`;
     }
 
-    baseUrl += `&apiKey=${omdbApiKey}`;
+    baseUrl += `&apiKey=${OMDB_API_KEY}`;
 
     if ((type || year) && !title) {
       setAlert((prevState) => ({
