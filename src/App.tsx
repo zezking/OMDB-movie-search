@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
-import List from "./components/list";
-import SearchBar from "./components/searchBar";
+import List from "./components/List";
+import SearchBar from "./components/SearchBar";
 import axios from "axios";
 import { useDebounce } from "./hooks/useDebounce";
 import { ThemeProvider } from "@emotion/react";
@@ -12,8 +12,8 @@ import {
   Stack,
 } from "@mui/material";
 import { theme } from "./styles";
-import TopBar from "./components/topBar";
-import Header from "./components/header";
+import TopBar from "./components/TopBar";
+import Header from "./components/Header";
 import { AlertType, SearchType } from "./types";
 
 const OMDB_API_KEY = process.env.REACT_APP_OMDB_API_KEY;
